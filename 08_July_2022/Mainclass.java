@@ -47,7 +47,7 @@ class Person{
     public Person(int age, String name){
     // public Person(int myAge, String myName){
         // this() is used to call the constructor or the parameter  of the constructor.
-        this();
+        this(); 
         // System.out.println(myName+" is " + myAge + " years old ");
         // age  =   myAge;
         // name = myName;

@@ -1,22 +1,37 @@
 import java.time.LocalDateTime;
-class Alarm {
-    boolean active;
+import java.awt.Color;
+public abstract class Alarm  implements Widget,PersistentObject {
+    // public sealed class Alarm permits HighVisibilityAlarm, PrioritizedAlarm{
+    protected boolean active;
     // final String message;
-    final String message;
-    LocalDateTime snoozeUntil;
+    private final String message;
+    private LocalDateTime snoozeUntil;
     // Alarm(){
     //     this("*************");
     // }
-    Alarm(String message){
-        this.message =  message;
+    public Alarm(String message){
+        this.message =  message;  
         stopSnoozing();
     }
-
-    void snooze(){
-        snoozeUntil =  LocalDateTime.now().plusMinutes(5);
+    @Override
+    public String getHelpText() {
+        return "I am an alarm. You can turn me on or off and snooze anytime";
+    }
+    @Override
+    public void save() {
+        System.out.println(("Saving...."));
+    }
+    public abstract Color getColor();
+    public LocalDateTime getSnoozeUntil(){
+        return snoozeUntil;
     }
 
-    boolean isSnoozing(){
+    public void snooze(int minutes){
+        if(active)
+            snoozeUntil =  LocalDateTime.now().plusMinutes(minutes);
+    }
+
+    public boolean isSnoozing(){
         return snoozeUntil.isAfter(LocalDateTime.now());
         // if(snoozeUntil.isAfter(LocalDateTime.now()))
         //     return true;
@@ -25,24 +40,26 @@ class Alarm {
 
     }
 
-    void stopSnoozing(){
-        snoozeUntil =  LocalDateTime.now().minusSeconds(1);
-    }
+    // public void stopSnoozing(){
+    //     snoozeUntil =  LocalDateTime.now().minusSeconds(1);
+    // }
 
-    String getMessage(){return message;}
+    public String getMessage(){return message;}
     
     
-     void turnOn(){
+    public void turnOn(){
         active =  true;
+        stopSnoozing();
     }
-    void turnOff(){
+    public void turnOff(){
         active  =  false;
+        stopSnoozing();
     }
 
-    String getReport(){
+    public String getReport(){
         return getReport(false);
     }
-    String getReport(boolean uppercase){
+    public  String getReport(boolean uppercase){
         if (active && !isSnoozing()){
             if(uppercase)
                 return message.toUpperCase();
@@ -51,16 +68,26 @@ class Alarm {
         }else   
             return "";
     }
-    void sendReport(){
+    public void sendReport(){
         System.out.println(getReport(true));
     }
+    @Override
+    public String toString(){
+        return getReport();
+    }
+    private void stopSnoozing(){ 
+        snoozeUntil =  LocalDateTime.now().minusSeconds(1);
+    }
     public static void main(String[] args){
-        Alarm  alarm  =  new Alarm("Temperature Too High");
-        alarm.turnOn();
-        alarm.snooze();
-        Thread.sleep(60000*6);
-        alarm.sendReport();       
+        Alarm alarm  = new PrioritizedAlarm("We're almost out of donuts !",42);
+        System.out.println(alarm.getColor());
+    //     Alarm  alarm  =  new Alarm("Temperature Too High");
+    //     alarm.turnOn();
+    //     alarm.snooze(3);
+    //     // Thread.sleep(60000*6);
+    //     alarm.sendReport();         
+    // }
+    // method called by the constructor should be either private or public.
     }
-
-    }
+}
     
