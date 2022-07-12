@@ -4,6 +4,7 @@ public class Program {
         activate(alarm);
         printHelpText(alarm);
         saveItTwice(alarm);
+        new Example();
         // Alarm  alarm  =  new Alarm("Temperature Too High");
         // alarm.turnOn();
         // String report   =  alarm.getReport();

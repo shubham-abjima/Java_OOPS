@@ -1,6 +1,21 @@
 import java.time.LocalDateTime;
 import java.awt.Color;
 public abstract class Alarm  implements Widget,PersistentObject {
+// public class Alarm{
+//     public static String documentation  =  "Use turnOn() to activate";
+//     protected boolean active;
+
+//     public static String getDocumentation(){
+//         return documentation;
+
+//     }
+//     public void turnOn(){
+//         active  =  true;
+
+//     }
+//     public static void main(String[] args){
+//         String s =  Alarm.documentation; 
+//     }
     // public sealed class Alarm permits HighVisibilityAlarm, PrioritizedAlarm{
     protected boolean active;
     // final String message;
